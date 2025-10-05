@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Тетрис</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div style="position: relative;">
+      <canvas id="gameCanvas"></canvas>
+      <div id="pauseOverlay">ПАУЗА</div>
+    </div>
+
+    <div id="sidebar">
+      <div class="panel">
+        <div id="score">Очки: 0</div>
+        <div id="level">Уровень: 1</div>
+      </div>
+
+      <div class="panel">
+        <h3>Следующая фигура</h3>
+        <div id="nextPreview"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Рекорды</h3>
+        <div id="highscores"></div>
+      </div>
+
+      <div class="panel">
+        <button id="startBtn">Старт</button>
+        <button id="pauseBtn">Пауза</button>
+        <button id="restartBtn">Рестарт</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/board.js"></script>
+  <script src="js/tetromino.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/scoreManager.js"></script>
+  <script src="js/uiManager.js"></script>
+  <script src="js/inputManager.js"></script>
+  <script src="js/gameController.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
