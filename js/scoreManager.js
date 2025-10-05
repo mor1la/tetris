@@ -14,7 +14,17 @@ class ScoreManager {
     }
 
     addScore(name, score) {
-        this.highscores.push({ name, score });
+        console.log(`Adding score: ${name} - ${score}`);
+        const existingIndex = this.highscores.findIndex(entry => entry.name === name);
+        
+        if (existingIndex !== -1) {
+            if (score > this.highscores[existingIndex].score) {
+                this.highscores[existingIndex].score = score;
+            }
+        } else {
+            this.highscores.push({ name, score });
+        }
+        
         this.highscores.sort((a, b) => b.score - a.score);
         this.highscores = this.highscores.slice(0, 10);
         this.save();
@@ -22,13 +32,5 @@ class ScoreManager {
 
     getHighscores() {
         return this.highscores;
-    }
-
-    saveScore(score) {
-        const username = localStorage.getItem("tetris.username") || "Игрок";
-        this.highscores.push({ name: username, score });
-        this.highscores.sort((a, b) => b.score - a.score);
-        this.highscores = this.highscores.slice(0, 10); // топ-10
-        localStorage.setItem("highscores", JSON.stringify(this.highscores));
     }
 }

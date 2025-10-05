@@ -1,9 +1,8 @@
 class GameController {
-    constructor(game, renderer, uiManager, inputManager, scoreManager, options = {}) {
+    constructor(game, renderer, uiManager, scoreManager, options = {}) {
         this.game = game;
         this.renderer = renderer;
         this.ui = uiManager;
-        this.input = inputManager;
         this.scores = scoreManager;
 
         this.dropInterval = options.baseInterval || 800;
@@ -20,17 +19,48 @@ class GameController {
         this.ui.onPause = () => this.togglePause();
         this.ui.onRestart = () => this.restart();
 
-        this.input.onMoveLeft = () => this.moveLeft();
-        this.input.onMoveRight = () => this.moveRight();
-        this.input.onRotate = () => this.rotate();
-        this.input.onSoftDrop = () => this.softDrop();
-        this.input.onHardDrop = () => this.hardDrop();
-        this.input.onPauseToggle = () => this.togglePause();
+        window.addEventListener('keydown', (e) => this.handleKey(e));
 
         this.renderer.resizeToBoard(this.game.board);
         this.ui.updateScore(0);
         this.ui.updateLevel(1);
         this.ui.renderHighscores(this.scores.getHighscores());
+    }   
+
+    handleKey(e) {
+        if (!this.running || this.paused) return;
+        
+        switch (e.code) {
+            case 'ArrowLeft': 
+                e.preventDefault(); 
+                this.game.moveLeft(); 
+                this.renderer.draw(this.game); 
+                break;
+            case 'ArrowRight': 
+                e.preventDefault(); 
+                this.game.moveRight(); 
+                this.renderer.draw(this.game); 
+                break;
+            case 'ArrowUp': 
+                e.preventDefault(); 
+                this.game.rotate(); 
+                this.renderer.draw(this.game); 
+                break;
+            case 'ArrowDown': 
+                e.preventDefault(); 
+                this.game.moveDown(); 
+                this.renderer.draw(this.game); 
+                break;
+            case 'Space': 
+                e.preventDefault(); 
+                this.game.hardDrop(); 
+                this.renderer.draw(this.game); 
+                break;
+            case 'KeyP': 
+                e.preventDefault(); 
+                this.togglePause(); 
+                break;
+        }
     }
 
     start() {
@@ -161,7 +191,7 @@ class GameController {
         const playerName = localStorage.getItem("tetris.username") || "Игрок";
         this.scores.addScore(playerName, this.game.score);
     
-        localStorage.setItem("tetris_highscores", JSON.stringify(this.scores.getHighscores()));
+        //localStorage.setItem("tetris_highscores", JSON.stringify(this.scores.getHighscores()));
     
         setTimeout(() => {
             window.location.href = "highscores.html";

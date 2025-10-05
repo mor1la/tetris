@@ -12,10 +12,10 @@ window.addEventListener("DOMContentLoaded", () => {
         highscoresContainerId: "highscores",
         pauseOverlayId: "pauseOverlay"
     });
-    const input = new InputManager();
+    
     const scores = new ScoreManager();
 
-    const controller = new GameController(game, renderer, ui, input, scores, {
+    const controller = new GameController(game, renderer, ui, scores, {
         baseInterval: 800,
         minInterval: 80,
         levelUpEvery: 200
